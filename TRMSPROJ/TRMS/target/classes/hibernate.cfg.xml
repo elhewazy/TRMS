@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibenate.connection.drive_class">
+			org.postgresql.Driver
+		</property>
+
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.PostgreSQLDialect
+		</property>
+
+		<property name="hibernate.connection.url">
+			jdbc:postgresql://database-1.cw7at88ppdwb.us-east-2.rds.amazonaws.com/postgres
+		</property>
+
+		<property name="hibernate.connection.username">
+			elhewazy
+		</property>
+
+		<property name="hibernate.connection.password">
+			312asd312
+		</property>
+
+		<property name="show_sql">
+			true
+		</property>
+
+		<property name="hbm2ddl.auto">
+		  create
+		</property>
+		
+		<mapping resource="login.hbm.xml"/>
+		<mapping class="com.elhewazy.models.Forms"/>
+		<mapping class="com.elhewazy.models.Emplyee"/>
+		<mapping class="com.elhewazy.models.Forms"/>
+		
+
+		
+	</session-factory>
+</hibernate-configuration>

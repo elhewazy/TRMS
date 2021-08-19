@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .mystatuse {
+                background-color: forestgreen;
+            }
+            .employees {
+                background-color: gold;
+            }
+
+        </style>
+    </head>
+    <body style="background-color: coral;">
+        <div>
+            <label for="name">emplyee name</label>
+            <input type="text" name="name" id="emplyeeName">
+        </div>
+        <br>
+        <div>
+            <label for="emaile">email</label>
+            <input type="email" name="emaile" id="email" autocomplete="on">
+        </div>
+        <br>
+        <div>
+            <label>choose your department</label>
+           <select id="emDpartment">
+               <option value="sales">sales</option>
+               <option value="Hr">HR</option>
+               <option value="acounting">acounting</option>
+               <option value="techniqal">techniqal</option>
+           </select>
+        </div>
+        <br>
+        <div>
+            <label for="startingDatee">startingDate</label>
+            <input type="date" id="satrtingDate" name="startingDateeS">
+
+            <label for="endingDatee">endingDate</label>
+            <input type="date" id="endingDate" name="endingDatee">
+        </div>
+        <br>
+        <div>
+            <label for="satrtingTimee">starting training time</label>
+            <input type="time" id="satrtingTime" name="satrtingTimee">
+
+            <label for="endingTimee">ending training time</label>
+            <input type="time" id="endingTime" name="endingTimee"> 
+        </div>
+        <br>
+        <div>
+            <label for="courseAmounte">cost</label>
+            <input type="number" id="courseAmount" name="courseAmounte">
+        </div>
+        <br>
+        <div>
+            <label>upload file</label>
+            <input type="file" id="file">
+        </div>
+        <br>
+        <div>
+            <lable>select the options</lable>
+            <select id="coursType">
+                <option value="universty">universty cours</option>
+                <option value="certification_preparing">certification preparing</option>
+                <option value="certification">certification</option>
+                <option value="training">training</option>
+                <option value="technical">technical</option>
+                <option value="other">other</option>  
+            </select>
+        </div>
+        <br>
+        <div>
+            <label for="currentDatee">today</label>
+            <input type="date" id="currentDate" name="currentDatee">
+            <button onclick="sendForm()">submit</button>
+        </div>
+        <br>
+        <br>
+        <div>
+            <button onclick="mystatus()" class="mystatuse">check my Form status</button>
+        </div>
+        <br>
+        <div>
+            <button onclick="employeeStatuse()" class="employees">check Employees Forms</button>
+        </div>
+    </body>
+    <script>
+
+        //////////////////////////////////
+           window.onload = function () { 
+
+             }
+
+            //////////////////////////
+            function employeeStatuse(){
+                window.location.href = 'file:///C:/Users/ahmed/OneDrive/Desktop/Trms/DepartHead.html';
+            }
+        function mystatus(){
+            window.location.href = 'file:///C:/Users/ahmed/OneDrive/Desktop/Trms/formStatus.html';
+        }
+function sendForm(){
+
+let myForm = new XMLHttpRequest();
+myForm.onreadystatechange = function (){
+    if(this.readyState == 4 && this.status == 200){
+        console.log(this.responseText);
+    }
+
+};
+   let emplyeeName = document.getElementById("emplyeeName").value;
+   let email = document.getElementById("email").value;
+   let satrtingDate = document.getElementById("satrtingDate").value;
+   let endingDate = document.getElementById("endingDate").value;
+   let courseAmount= document.getElementById("courseAmount").value;
+   let emDpartment= document.getElementById("emDpartment").value;
+   let currentDate= document.getElementById("currentDate").value;
+   let satrtingTime = document.getElementById("satrtingTime").value;
+   let coursType = document.getElementById("coursType").value;
+   let endingTime = document.getElementById("endingTime").value;
+   let file = document.getElementById("file").value
+   
+let myData = {
+    emplyeeName : emplyeeName,
+    email : email,
+    coursType : coursType,
+    satrtingDate : satrtingDate,
+    endingDate : endingDate,
+    satrtingTime : satrtingTime,
+    endingTime : endingTime,
+    courseAmount : courseAmount,
+    emDpartment : emDpartment,
+    currentDate : currentDate,
+    file : file
+};
+const url = "http://localhost:7000/AddForm";
+myForm.open("POST",url,true);
+// myForm.setRequestHeader("Content-Type", "application/json");
+myForm.send(JSON.stringify(myData));
+}
+    </script>
+</html>

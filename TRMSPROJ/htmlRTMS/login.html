@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<htm>
+<head>
+<title>login page</title>
+</head>
+<body style="background-color: coral;">
+    <div>
+      <label for="username">username</label>
+      <input type="text" name="username" id="username" placeholder="input username">
+    </div>
+    <br>
+    <div>
+       <label for="password">password</label>
+       <input type="password" name="password" id="password" placeholder="password" >
+    </div>
+    <br>
+    <button id="sendata" onclick="sendData()">login</button>
+    <br>
+    <br>
+    <br>
+</body>
+<script>
+/////////////////////////////////////
+    function sendData(){
+
+        let myDatat = new XMLHttpRequest();
+        myDatat.onreadystatechange = function (){
+            if(this.readyState == 4 && this.status == 200){
+
+                let check = JSON.parse(this.responseText);
+                // console.log(this.responseText);
+                let userch = document.getElementById("username").value;
+                let passch = document.getElementById("password").value;
+                
+                if(check.userName == userch && check.password == passch && check.position == "E"){
+                    window.location.href = 'file:///C:/Users/ahmed/OneDrive/Desktop/Trms/Eform.html';
+                }
+                else if (check.userName == userch && check.password == passch && check.position == "DS"){
+                    window.location.href = 'file:///C:/Users/ahmed/OneDrive/Desktop/Trms/Sform.html'
+                }
+                else if (check.userName == userch && check.password == passch && check.position == "HD"){
+                    window.location.href = 'file:///C:/Users/ahmed/OneDrive/Desktop/Trms/Hform.html';
+                }
+                else if (check.userName == userch && check.password == passch && check.position == "BC"){
+                    window.location.href = 'file:///C:/Users/ahmed/OneDrive/Desktop/Trms/BenCO.html';
+                }
+                else {
+                    alert("please inter the correct username and pawssword");
+                }
+            }
+
+        };
+        let myusername = document.getElementById("username").value;
+        let mypassword = document.getElementById("password").value;
+
+        let myDataToJSON = {userName:myusername,password:mypassword};
+         //myDataToJSON = JSON.stringify(myDataToJSON);
+
+        const url = "http://localhost:7000/checkLogin/";
+        myDatat.open("POST",url,true);
+        myDatat.setRequestHeader("Content-Type", "application/json");
+        var type = XMLHttpRequest.responseType;
+
+        XMLHttpRequest.responseType = type;
+       
+        myDatat.send(JSON.stringify(myDataToJSON));
+    }
+   
+
+</script>
+</html>

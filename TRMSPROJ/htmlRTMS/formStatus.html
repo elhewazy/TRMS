@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p{
+                line-height: 10pt;
+                text-align: inherit;
+                
+            }
+            h5 {
+                line-height: 8pt
+            }
+            .fixIt {
+                height: 500px;
+            }
+            .waitingB {
+                background-color: forestgreen;
+            }
+   .flex-container {
+      display: flex;
+}
+.flex-child {
+    background-color:skyblue;
+    flex: 1;
+    border: 5px solid blue;
+    text-align: center;
+    width: 300px;
+
+}  
+        </style>
+    </head>
+    <body style="background-color: coral;">
+        <lable for="email">inter your email</lable>
+        <input id="email" name="email">
+        <div>
+            <button onclick="getForms()">show my form status</button>
+        </div>
+        <div  id="myDiv" class="flex-container">
+        </div>
+    </body >
+    <script>
+        /////////////////////
+        function addSf(id){
+            let chForms = new XMLHttpRequest();
+            chForms.onreadystatechange = function (){
+             if(this.readyState == 4 && this.status == 200){
+                   // nForms = JSON.parse(this.responseText);
+                   // console.log(nForms);
+               }
+            }
+                   let forms = document.getElementById(`main${id}`);
+                   let emplyeeName = forms.getElementsByTagName("h5")[1].getAttribute("class");
+                   let email = forms.getElementsByTagName("H5")[2].getAttribute("class");
+                   let coursType = forms.getElementsByTagName("H5")[3].getAttribute("class");
+                   let courseAmount = forms.getElementsByTagName("H5")[4].getAttribute("class");
+                   let satrtingDate = forms.getElementsByTagName("H5")[5].getAttribute("class");
+                   let endingDate = forms.getElementsByTagName("H5")[6].getAttribute("class");
+                   let satrtingTime = forms.getElementsByTagName("H5")[7].getAttribute("class");
+                   let endingTime = forms.getElementsByTagName("H5")[8].getAttribute("class");
+                   let currentDate= forms.getElementsByTagName("H5")[9].getAttribute("class");
+                   let superapproval = forms.getElementsByTagName("p")[0].getAttribute("class");
+                   let sComm = forms.getElementsByTagName("p")[1].getAttribute("class");
+                   let headapproval = forms.getElementsByTagName("p")[2].getAttribute("class");
+                   let aComm = forms.getElementsByTagName("p")[3].getAttribute("class");
+                   let managerapproval = forms.getElementsByTagName("p")[4].getAttribute("class");
+                   let mComm = forms.getElementsByTagName("p")[5].getAttribute("class");
+                   let empC = document.getElementById(`empC${id}`).value;
+                 
+                let myData = {
+                FormId : id,
+                emplyeeName :emplyeeName,
+                email : email,
+                coursType : coursType,
+                satrtingDate : satrtingDate,
+                endingDate : endingDate,
+                satrtingTime : satrtingTime,
+                endingTime : endingTime,
+                courseAmount : courseAmount,
+                currentDate : currentDate,
+                superapproval :superapproval,
+                headapproval :headapproval,
+                managerapproval : managerapproval,
+                sComm : sComm,
+                aComm : aComm,
+                mComm : mComm,
+                empC : empC
+                };
+                console.log(myData);
+            let url = "http://localhost:7000/approvForms/";
+            chForms.open("POST",url,true);
+            chForms.send(JSON.stringify(myData));
+        }
+        ////////////////////////
+         function getForms(){
+            let allForms = new XMLHttpRequest();
+            allForms.onreadystatechange = function (){
+            if(this.readyState == 4 && this.status == 200){
+                let sForms = JSON.parse(this.responseText);
+                console.log(sForms);
+                let emailch = document.getElementById("email").value;
+               let emailch1  = emailch.toLowerCase();
+                for(let i=0;i<sForms.length;i++){
+                    let id = sForms[i].FormId;
+                if(sForms[i].email === emailch1){
+                    if(document.getElementById(`main${id}`)){
+                        break;
+                    }
+                    
+                    let htmlForms =`<div class="flex-child" id="main${sForms[i].FormId}">
+                          <h5 id="formID${sForms[i].FormId}">formID : ${sForms[i].FormId}</h5>
+                          <h5 id="emplyeeName${sForms[i].FormId}" class="${sForms[i].emplyeeName}">emplyeeName : ${sForms[i].emplyeeName}</h5>
+                          <h5 id="email${sForms[i].FormId}" class="${sForms[i].email}">email : ${sForms[i].email}</h5>
+                          <h5 id="coursType${sForms[i].FormId}" class="${sForms[i].coursType}">coursType : ${sForms[i].coursType}</h5>
+                          <h5 id="courscost${sForms[i].FormId}" class="${sForms[i].courseAmount}">courscost : ${sForms[i].courseAmount}</h5>
+                          <h5 id="satrtingDate${sForms[i].FormId}" class="${sForms[i].satrtingDate}">satrtingDate : ${sForms[i].satrtingDate}</h5>
+                          <h5 id="endingDate${sForms[i].FormId}" class="${sForms[i].endingDate}">endingDate : ${sForms[i].endingDate}</h5>
+                          <h5 id="satrtingTime${sForms[i].FormId}" class="${sForms[i].satrtingTime}">satrtingTime: ${sForms[i].satrtingTime}</h5>
+                          <h5 id="endingTime${sForms[i].FormId}" class="${sForms[i].endingTime}">endingTime: ${sForms[i].endingTime}</h5>
+                          <h5 id="currentDate${sForms[i].FormId}" class="${sForms[i].currentDate}">assign Date: ${sForms[i].currentDate}</h5>
+                          <p id="superapproval${sForms[i].FormId}" class="${sForms[i].superapproval}">suppervisor: ${sForms[i].superapproval}</p>
+                          <p id="sCommt${sForms[i].FormId}" class="${sForms[i].sComm}">suppervisor comment: ${sForms[i].sComm}</p>
+                          <p id="headapproval${sForms[i].FormId}" class="${sForms[i].headapproval}">headapproval : ${sForms[i].headapproval}</p>
+                          <p id="aComm${sForms[i].FormId}" class="${sForms[i].aComm}">headapproval comment : ${sForms[i].aComm}</p>
+                          <p id="managerapproval${sForms[i].FormId}" class="${sForms[i].managerapproval}">managerapproval : ${sForms[i].managerapproval}</p>
+                          <p id="mComm${sForms[i].FormId}" class="${sForms[i].mComm}">BenCo comment: ${sForms[i].mComm}</p>
+                             </div>`;
+                var para1 = document.createElement("div");
+                para1.innerHTML = htmlForms;
+                para1.setAttribute("class","fixIt")
+               document.getElementById("myDiv").appendChild(para1);
+               if(sForms[i].managerapproval == "approve"){
+                            let waitingG = document.createElement("p");
+                            waitingG.innerText = "please after graduated send an email to ahmed_elhewazy@yahoo.com with the certification";
+                            waitingG.setAttribute("class","waitingB");
+                            document.getElementById(`main${id}`).appendChild(waitingG);
+                }else if(sForms[i].sComm !== "undefine" || sForms[i].aComm !== "undefine"  || sForms[i].mComm !== "undefine"){
+                    let eCmment = document.createElement("input");
+                    eCmment.setAttribute("id",`empC${id}`);
+                    eCmment.setAttribute("class",`${sForms[i].empC}`);
+                    document.getElementById(`main${id}`).appendChild(eCmment);
+
+                    let sendB = document.createElement("button");
+                    sendB.innerText = "sendB";
+                    sendB.setAttribute("id",`sendB${id}`);
+                    sendB.setAttribute("onclick",`addSf(${id})`);
+                    document.getElementById(`main${id}`).appendChild(sendB);
+                }
+                 
+
+            }
+                }
+            }
+        };
+            let url = "http://localhost:7000/getAllForms";
+            allForms.open("GET",url,true);
+            allForms.send();
+        
+        }
+    </script>
+</html>

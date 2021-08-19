@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            p{
+                line-height: 8pt
+            }
+            h5 {
+                line-height: 8pt
+            }
+            .money {
+                background-color: gold;
+            }
+            .app {
+               background-color: green;
+
+           }
+           .dec {
+               background-color:blue;
+               color: white;
+           }
+            #urgentb {
+                color:white;
+                background-color: red;
+            }
+            .flex-container {
+    display: flex;
+    
+}
+.flex-child {
+    background-color: crimson;
+    flex: 1;
+    border: 2px solid blue;
+    text-align: center;
+
+}  
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+        </style>
+    </head>
+    <body style="background-color: coral;">
+        <!-- <button id="allForms" onclick="getForms()" >get_Forms</button> -->
+     <div id="myDiv" class="flex-container">
+         
+    </div>
+    </body>
+    <script>
+
+        window.onload = function () {
+            getForms();
+            }
+            /////////////////
+            function urgent(id){
+            let forms = document.getElementById(`main${id}`);
+            let satrtingDate = forms.getElementsByTagName("H5")[5].getAttribute("class");
+           
+            let currentDate= forms.getElementsByTagName("p")[2].getAttribute("class");
+            satrtingDate = new Date(satrtingDate);
+            currentDate = new Date(currentDate);
+            const diffTime = Math.abs(satrtingDate - currentDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if(diffDays <= 14){
+                let newElement = document.createElement("button");
+                newElement.innerHTML = "please my form is urgent";
+                newElement.setAttribute("id", "urgentb");
+                forms.appendChild(newElement);
+            }
+
+        }
+        function getFormEmail(id){
+            let forms = document.getElementById(`main${id}`);
+            let emplyeeName = forms.getElementsByTagName("H5")[1].getAttribute("class");
+            let email = forms.getElementsByTagName("H5")[2].getAttribute("class");
+            let courseAmount = forms.getElementsByTagName("H5")[4].getAttribute("class");
+            let coursType = forms.getElementsByTagName("H5")[3].getAttribute("class");
+            //////////////
+            if(coursType === "universty"){courseAmount = courseAmount * (80/100);}
+            else if (coursType === "certification_preparing"){
+                courseAmount = courseAmount * (75/100);
+            }
+            else if (coursType === "certification"){
+                courseAmount = courseAmount * (100/100);
+            }
+            else if (coursType === "training"){
+                courseAmount = courseAmount * (90/100);
+            }
+            else if (coursType === "technical"){courseAmount = courseAmount * (90/100);}
+            else {
+                courseAmount = courseAmount * (70/100);}
+            ////////////////
+            let formE = new XMLHttpRequest();
+            formE.onreadystatechange = function (){
+            if(this.readyState == 4 && this.status == 200){
+                let sForms = JSON.parse(this.responseText);
+                console.log(sForms);
+               let money = sForms.avMoney - sForms.awardedR - sForms.pendingR;
+                // window.prompt(`${emplyeeName} needs ${courseAmount} and he own now : ${money}`);
+                document.getElementById(`avilableMoney${id}`).innerHTML = `${emplyeeName} own now: ${money}$`;
+
+               }
+           }
+           let emailSr = {email:email};
+           let emailSrTo = JSON.stringify(emailSr);
+           let url = "http://localhost:7000/getEmplyeeByEmail/";
+           formE.open("PUT",url,true);
+           formE.send(emailSrTo);
+        }
+///////////////////////////
+        function decline(id){
+            let chForms = new XMLHttpRequest();
+            chForms.onreadystatechange = function (){
+             if(this.readyState == 4 && this.status == 200){
+               }
+            }
+            let forms = document.getElementById(`main${id}`);
+                    let emplyeeName = forms.getElementsByTagName("H5")[1].getAttribute("class");
+                    let email = forms.getElementsByTagName("H5")[2].getAttribute("class");
+                    let coursType = forms.getElementsByTagName("H5")[3].getAttribute("class");
+                    let courseAmount = forms.getElementsByTagName("H5")[4].getAttribute("class");
+                    let satrtingDate = forms.getElementsByTagName("H5")[5].getAttribute("class");
+                    let endingDate = forms.getElementsByTagName("H5")[6].getAttribute("class");
+                   let satrtingTime = forms.getElementsByTagName("p")[0].getAttribute("class");
+                   let endingTime = forms.getElementsByTagName("p")[1].getAttribute("class");
+                   let currentDate= forms.getElementsByTagName("p")[2].getAttribute("class");
+                   let superapproval = forms.getElementsByTagName("p")[4].getAttribute("class");
+                   let sComm = forms.getElementsByTagName("p")[5].getAttribute("class");
+                   let aComm = document.getElementById(`aComm${id}`).value;
+                 
+                let myData = {
+                    FormId : id,
+                emplyeeName :emplyeeName,
+                email : email,
+                coursType : coursType,
+                satrtingDate : satrtingDate,
+                endingDate : endingDate,
+                satrtingTime : satrtingTime,
+                endingTime : endingTime,
+                courseAmount : courseAmount,
+                currentDate : currentDate,
+                superapproval :superapproval,
+                headapproval : "decline",
+                sComm : sComm,
+                aComm : aComm
+                };
+                console.log(myData);
+            let url = "http://localhost:7000/approvForms/";
+            chForms.open("POST",url,true);
+            chForms.send(JSON.stringify(myData));
+        }
+        function addSf(id){
+            let chForms = new XMLHttpRequest();
+            chForms.onreadystatechange = function (){
+             if(this.readyState == 4 && this.status == 200){
+                   // nForms = JSON.parse(this.responseText);
+                   // console.log(nForms);
+               }
+            }
+                    let forms = document.getElementById(`main${id}`);
+                    let emplyeeName = forms.getElementsByTagName("H5")[1].getAttribute("class");
+                    let email = forms.getElementsByTagName("H5")[2].getAttribute("class");
+                    let coursType = forms.getElementsByTagName("H5")[3].getAttribute("class");
+                    let courseAmount = forms.getElementsByTagName("H5")[4].getAttribute("class");
+                    let satrtingDate = forms.getElementsByTagName("H5")[5].getAttribute("class");
+                    let endingDate = forms.getElementsByTagName("H5")[6].getAttribute("class");
+                   let satrtingTime = forms.getElementsByTagName("p")[0].getAttribute("class");
+                   let endingTime = forms.getElementsByTagName("p")[1].getAttribute("class");
+                   let currentDate= forms.getElementsByTagName("p")[2].getAttribute("class");
+                   let superapproval = forms.getElementsByTagName("p")[4].getAttribute("class");
+                   let sComm = forms.getElementsByTagName("p")[5].getAttribute("class");
+                   let aComm = document.getElementById(`aComm${id}`).value;
+                 
+                let myData = {
+                    FormId : id,
+                emplyeeName :emplyeeName,
+                email : email,
+                coursType : coursType,
+                satrtingDate : satrtingDate,
+                endingDate : endingDate,
+                satrtingTime : satrtingTime,
+                endingTime : endingTime,
+                courseAmount : courseAmount,
+                currentDate : currentDate,
+                superapproval :"approve",
+                headapproval : "approve",
+                sComm : sComm,
+                aComm : aComm
+                };
+                console.log(myData);
+            let url = "http://localhost:7000/approvForms/";
+            chForms.open("POST",url,true);
+            chForms.send(JSON.stringify(myData));
+        }
+        function getForms(){
+            
+            let allForms = new XMLHttpRequest();
+            allForms.onreadystatechange = function (){
+            if(this.readyState == 4 && this.status == 200){
+                let sForms = JSON.parse(this.responseText);
+                console.log(sForms);
+                for(let i = 0; i<sForms.length;i++){
+                    let id = sForms[i].FormId;
+                    let formdate = sForms[i].currentDate;
+                    formdate = new Date(formdate);
+                    let today = new Date();
+                    const diffTime = Math.abs(today - formdate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    console.log(diffDays);
+                    console.log(id);
+                       if(sForms[i].superapproval === "decline"){
+                        continue;
+                    }else if(!sForms[i].superapproval && diffDays < 14){
+                        continue;
+                    } else if(!sForms[i].superapproval && diffDays >= 20) {
+                        sForms[i].headapproval = "approve";
+                        sForms[i].sComm = "passed 20 days with out ansewr";
+
+                    } else if(sForms[i].headapproval === "approve"){
+                            continue;
+                    }
+
+                        let htmlForms =`<div class="flex-child" id="main${sForms[i].FormId}">
+                          <h5 id="formID${sForms[i].FormId}">formID : ${sForms[i].FormId}</h5>
+                          <h5 id="emplyeeName${sForms[i].FormId}" class="${sForms[i].emplyeeName}">emplyeeName: ${sForms[i].emplyeeName}</h5>
+                          <h5 id="email${sForms[i].FormId}" class="${sForms[i].email}">email: ${sForms[i].email}</h5>
+                          <h5 id="coursType${sForms[i].FormId}" class="${sForms[i].coursType}">coursType: ${sForms[i].coursType}</h5>
+                          <h5 id="courscost${sForms[i].FormId}" class="${sForms[i].courseAmount}">courscost: ${sForms[i].courseAmount}</h5>
+                          <h5 id="satrtingDate${sForms[i].FormId}" class="${sForms[i].satrtingDate}">satrtingDate: ${sForms[i].satrtingDate}</h5>
+                          <h5 id="endingDate${sForms[i].FormId}" class="${sForms[i].endingDate}">endingDate: ${sForms[i].endingDate}</h5>
+                          <p id="satrtingTime${sForms[i].FormId}" class="${sForms[i].satrtingTime}">satrtingTime: ${sForms[i].satrtingTime}</p>
+                          <p id="endingTime${sForms[i].FormId}" class="${sForms[i].endingTime}">endingTime: ${sForms[i].endingTime}</p>
+                          <p id="currentDate${sForms[i].FormId}" class="${sForms[i].currentDate}">currentDate: ${sForms[i].currentDate}</p>
+                          <p id="avilableMoney${sForms[i].FormId}" class="${sForms[i].avilableMoney}">avilableMoney: ${sForms[i].avilableMoney}</p>
+                          <p id="superapproval${sForms[i].FormId}" class="${sForms[i].superapproval}">suppervisor: ${sForms[i].superapproval}</p>
+                          <p id="sComm${sForms[i].FormId}" class="${sForms[i].sComm}">suppervisor commint: ${sForms[i].sComm}</p>
+                          <label for="aComm${sForms[i].FormId}"> Acomment</label>
+                          <input type="text" id="aComm${sForms[i].FormId}" name="aComm${sForms[i].FormId}">
+                          <button onclick="getFormEmail(${sForms[i].FormId})" class="money">get money information</button>
+                          <button onclick="addSf(${sForms[i].FormId})"class="app">approve</button>
+                          <button onclick="decline(${sForms[i].FormId})" class="dec">declin</button>
+                          </div>`;
+                var para1 = document.createElement("div");
+                para1.innerHTML = htmlForms;
+
+                document.getElementById("myDiv").appendChild(para1);
+                urgent(id);
+                getFormEmail(id);
+                }
+            }
+        };
+            let url = "http://localhost:7000/getAllForms";
+            allForms.open("GET",url,true);
+            allForms.send();
+        
+        }
+      </script>
+
+</html>
