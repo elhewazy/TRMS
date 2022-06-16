@@ -1,4 +1,4 @@
-
+to let this app work in your side you need to set the your own sql URL 
 Tuition Reimbursement Management System (TRMS)
 Project Description
 This is a tuition reimbursement management system to where a user can login and enter a tuition reimbursement form to summit to thier job for reimbursment of funds after being approved by a direct supervisor, a department head, and a benefits coordinator while the employee is able to track the status of their requests. A direct supervisor, a department head, and a benefits coordinator are then able to login and select an employee to be approved or denied with a denial reason and the option to submit addional information. Approvals must be completed in the order of authority of management. Once an approval is completed by all levels of management the amount of the request is processed with a comparison of the allotted yearly yearly funding and adjusted by a percentage of how much is covered by the type of training requested.
